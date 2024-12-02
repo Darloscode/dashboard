@@ -82,8 +82,9 @@ export default function ControlWeather() {
                  (selected >= 0)?items[selected]["description"]:""
              }
              </Typography>*/}
-            <Typography ref={descriptionRef} mt={2} component="p" color="text.secondary" />
-
+            <Typography ref={descriptionRef} mt={2} component="p" color="text.secondary" > 
+            {selected >= 0 ? items[selected]["description"] : "Seleccione una variable para ver la descripción."}
+            </Typography>
         </Paper>
 
 
