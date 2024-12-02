@@ -10,6 +10,7 @@ import './App.css'
 import TableWeather from './components/TableWeather';
 import ControlWeather from './components/ControlWeather';
 import LineChartWeather from './components/LineChartWeather';
+import Item from './interface/Item';
 
 interface Indicator {
   title?: String;
@@ -19,6 +20,7 @@ interface Indicator {
 
 function App() {
   {/* Variable de estado y función de actualización */ }
+  let [items, setItems] = useState<Item[]>([]);
   let [indicators, setIndicators] = useState<Indicator[]>([])
   let [owm, setOWM] = useState(localStorage.getItem("openWeatherMap"))
 
@@ -56,8 +58,8 @@ function App() {
         setOWM(savedTextXML)
       }
 
-      {/* Verifique si es que no existe la clave expiringTime o si la estampa de tiempo actual supera el tiempo de expiración */ }
-      if (expiringTime === null || nowTime > parseInt(expiringTime)) {
+      {/* Valide el procesamiento con el valor de savedTextXML */ }
+      if (savedTextXML) {
         {/* XML Parser: Toma texto y lo convierte a objeto*/ }
         const parser = new DOMParser();
         const xml = parser.parseFromString(savedTextXML, "application/xml");
@@ -86,12 +88,34 @@ function App() {
 
         /*console.log(dataToIndicators)*/
         {/* Modificación de la variable de estado mediante la función de actualización */ }
-        setIndicators(dataToIndicators)
+        setIndicators(dataToIndicators);
+
+        //Crear un arreglo temporal de tipo Item
+        let dataToItems: Item[] = [];
+
+        const times = xml.getElementsByTagName("time");
+
+        Array.from(times).forEach((timeElement) => {
+          let dateStart = timeElement.getAttribute("from") || "";
+          let dateEnd = timeElement.getAttribute("to") || "";
+
+          // Extraemos los valores de las etiquetas
+          let precipitation = timeElement.getElementsByTagName("precipitation")[0]?.getAttribute("probability") || "0";
+          let humidity = timeElement.getElementsByTagName("humidity")[0]?.getAttribute("value") || "0";
+          let clouds = timeElement.getElementsByTagName("clouds")[0]?.getAttribute("all") || "0";
+
+          dataToItems.push({
+            dateStart, dateEnd, precipitation, humidity, clouds
+          });
+        });
+
+        setItems(dataToItems);
+
       }
     }
-      request();
+    request();
 
-    }, [owm])
+  }, [owm])
   /*const [count, setCount] = useState(0)*/
 
   return (
@@ -125,7 +149,7 @@ function App() {
             <ControlWeather />
           </Grid>
           <Grid size={{ xs: 12, xl: 9 }}>
-            <TableWeather />
+            <TableWeather itemsIn = { items }/>
           </Grid>
         </Grid>
       </Grid>
