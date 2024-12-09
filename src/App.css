@@ -1,3 +1,4 @@
+/*
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -39,4 +40,44 @@
 
 .read-the-docs {
   color: #888;
+}
+*/
+
+/* Contenedor principal */
+.app-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Barra de navegación */
+.navbar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  background-color: #123f77; /* Color del fondo */
+  z-index: 1;
+}
+
+@media (max-width: 1001px) {
+  .navbar-container {
+    position: relative;
+    width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+    height: auto; /* Ajusta la altura automáticamente */
+  }
+}
+
+/* Contenido principal */
+.main-content-container {
+  margin-left: 220px; /* Espacio reservado para el nav */
+  padding: 20px;
+  flex-grow: 1;
+  width: calc(100% - 220px); /* Resta el ancho del nav */
+
+  /* Ajustes en pantallas pequeñas */
+  @media (max-width: 1001px) {
+    margin-left: 0; /* Quita el margen en pantallas pequeñas */
+    width: 100%; /* Ocupa todo el ancho */
+  }
 }

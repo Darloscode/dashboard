@@ -11,6 +11,8 @@ import TableWeather from './components/TableWeather';
 import ControlWeather from './components/ControlWeather';
 import LineChartWeather from './components/LineChartWeather';
 import Item from './interface/Item';
+import NavBar from './components/NavBar'
+import Time from './components/Time'
 
 interface Indicator {
   title?: String;
@@ -119,46 +121,82 @@ function App() {
   /*const [count, setCount] = useState(0)*/
 
   return (
-    <Grid container spacing={5}>
-
-      {/* Indicadores  */}
-      {/* Indicadores xs el numero de columnas que queremos que ocupe*/}
-      {/*
-      <Grid size={{ xs: 12, xl: 3 }}> <IndicatorWeather title={'Indicator 1'} subtitle={'Unidad 1'} value={"1.23"} /> </Grid>
-      <Grid size={{ xs: 12, xl: 3 }}> <IndicatorWeather title={'Indicator 2'} subtitle={'Unidad 2'} value={"3.12"} /> </Grid>
-      <Grid size={{ xs: 12, xl: 3 }}> <IndicatorWeather title={'Indicator 3'} subtitle={'Unidad 3'} value={"2.31"} /> </Grid>
-      <Grid size={{ xs: 12, xl: 3 }}> <IndicatorWeather title={'Indicator 4'} subtitle={'Unidad 4'} value={"3.21"} /> </Grid>*/}
-      {
-        indicators
-          .map(
-            (indicator, idx) => (
-              <Grid key={idx} size={{ xs: 12, xl: 3 }}>
-                <IndicatorWeather
-                  title={indicator["title"]}
-                  subtitle={indicator["subtitle"]}
-                  value={indicator["value"]} />
-              </Grid>
-            )
-          )
-      }
-      {/* Tabla */}
-      <Grid size={{ xs: 12, xl: 8 }}>
-        {/* Grid Anidado */}
-        <Grid container spacing={2}>
-          <Grid size={{ xs: 12, xl: 3 }}>
-            <ControlWeather />
-          </Grid>
-          <Grid size={{ xs: 12, xl: 9 }}>
-            <TableWeather itemsIn = { items }/>
-          </Grid>
+    <>
+      <Grid container className="app-container">
+        {/* Barra de navegación ocupa 220px */}
+        <Grid item xs={12} md={3} className="navbar-container">
+          <NavBar />
         </Grid>
-      </Grid>
 
-      {/* Gráfico */}
-      <Grid size={{ xs: 12, xl: 4 }}> <LineChartWeather /> </Grid>
-    </Grid>
+        {/* Contenido principal */}
+        <Grid container spacing={2} className="main-content-container" >
 
-  )
+          <Grid container id="title">
+            <Grid item sm={4} md={4} lg={4} xl={4}>
+              <h2 className='section-title'>Detalles de la Localización</h2>
+              <p className='section-text'>
+                Los indicadores de localización proporcionan información esencial sobre la ubicación específica dentro de la ciudad de Guayaquil para la que se están mostrando los datos climáticos. Estos indicadores son cruciales para ofrecer una perspectiva precisa y detallada del clima, ya que las condiciones meteorológicas pueden variar significativamente entre diferentes áreas de la ciudad.
+              </p>
+            </Grid>
+            <Grid item sm={4} md={4} lg={4} xl={4}>
+              <Time />
+            </Grid>
+          </Grid>
+
+
+          <Grid container sm={12} md={12} lg={12} id="Time" sx={{ width: '100%', alignItems: 'center', justifyContent: 'center'}}>
+
+            <Grid xs={12} sm={8} md={9} lg={9} xl={9} sx={{ textAlign: 'left', marginY: 3, padding: 3, color: 'white' }}>
+              <h2 className='section-title'>Detalles de la Localización</h2>
+              <p className='section-text'>
+                Los indicadores de localización proporcionan información esencial sobre la ubicación específica dentro de la ciudad de Guayaquil para la que se están mostrando los datos climáticos. Estos indicadores son cruciales para ofrecer una perspectiva precisa y detallada del clima, ya que las condiciones meteorológicas pueden variar significativamente entre diferentes áreas de la ciudad.
+              </p>
+            </Grid>
+
+            <Grid xs={12} sm={4} md={3} lg={3} xl={3} sx={{display: 'flex', justifyContent: 'center', zIndex: 1 }}>
+              <Time />
+            </Grid>
+
+          </Grid>
+
+
+          {/*Indicadores*/}
+          {
+            indicators
+              .map(
+                (indicator, idx) => (
+                  <Grid key={idx} spacing={1} xs={12} sm={6} md={3} lg={3} sx={{ flexGrow: 1 }}>
+                    <IndicatorWeather
+                      title={indicator["title"]}
+                      subtitle={indicator["subtitle"]}
+                      value={indicator["value"]} />
+                  </Grid>
+                )
+              )
+          }
+
+
+          {/* Tabla */}
+          <Grid size={{ xs: 12, xl: 8 }}>
+            {/* Grid Anidado */}
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12, xl: 3 }}>
+                <ControlWeather />
+              </Grid>
+              <Grid size={{ xs: 12, xl: 9 }}>
+                <TableWeather itemsIn={items} />
+              </Grid>
+            </Grid>
+          </Grid>
+
+          {/* Gráfico */}
+          <Grid size={{ xs: 12, xl: 4 }}> <LineChartWeather /> </Grid>
+
+
+        </Grid>
+      </Grid >
+    </>
+  );
 }
 
 export default App
