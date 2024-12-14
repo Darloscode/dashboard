@@ -26,10 +26,10 @@ export default function Navbar() {
                     <h3 id="logo-title">GuayasTime</h3>
                 </div>
 
-                <a href="#" onClick={showNavBar}>Inicio</a>
-                <a href="#indicators" onClick={showNavBar}>Detalles</a>
-                <a href="#table" onClick={showNavBar}>Historial</a>
-                <a href="#graphic" onClick={showNavBar}>Gráfico</a>
+                <a href="#inicio" onClick={showNavBar}>Inicio</a>
+                <a href="#indicadores" onClick={showNavBar}>Detalles</a>
+                <a href="#historial" onClick={showNavBar}>Historial</a>
+                <a href="#grafico" onClick={showNavBar}>Gráfico</a>
 
                 <button className="nav-btn nav-close-btn" onClick={showNavBar}>
                     <FaTimes />

@@ -43,6 +43,10 @@
 }
 */
 
+p {
+  text-align: justify;
+}
+
 /* Contenedor principal */
 .app-container {
   display: flex;

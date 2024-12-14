@@ -88,6 +88,15 @@ function App() {
         let altitude = location.getAttribute("altitude") || ""
         dataToIndicators.push({ "title": "Location", "subtitle": "Altitude", "value": altitude })
 
+        let locationNode = xml.getElementsByTagName("location")[0];
+
+        let country = locationNode.getElementsByTagName("country")[0]?.innerHTML || "";
+        dataToIndicators.push({ "title": "Location", "subtitle": "País", "value": country });
+
+        let timezone = locationNode.getElementsByTagName("timezone")[0]?.innerHTML || "";
+        dataToIndicators.push({ "title": "Location", "subtitle": "Zona Horaria", "value": timezone });
+
+
         /*console.log(dataToIndicators)*/
         {/* Modificación de la variable de estado mediante la función de actualización */ }
         setIndicators(dataToIndicators);
@@ -105,9 +114,11 @@ function App() {
           let precipitation = timeElement.getElementsByTagName("precipitation")[0]?.getAttribute("probability") || "0";
           let humidity = timeElement.getElementsByTagName("humidity")[0]?.getAttribute("value") || "0";
           let clouds = timeElement.getElementsByTagName("clouds")[0]?.getAttribute("all") || "0";
+          let temperature = timeElement.getElementsByTagName("temperature")[0]?.getAttribute("value") || "0";
+          let visibility = timeElement.getElementsByTagName("visibility")[0]?.getAttribute("value") || "0";
 
           dataToItems.push({
-            dateStart, dateEnd, precipitation, humidity, clouds
+            dateStart, dateEnd, precipitation, humidity, clouds, temperature, visibility
           });
         });
 
@@ -118,66 +129,90 @@ function App() {
     request();
 
   }, [owm])
+
+
   /*const [count, setCount] = useState(0)*/
 
   return (
     <>
       <Grid container className="app-container" >
-        {/* Barra de navegación ocupa 220px */}
-        <Grid size={{sm:0, xs: 0, xl: 0, md:1 }} className="navbar-container">
+
+        {/* Barra de navegación */}
+        <Grid size={{ sm: 0, xs: 1, xl: 0, md: 1 }} className="navbar-container">
           <NavBar />
         </Grid>
 
-        {/* Contenido principal */}
-        <Grid container spacing={2} className="main-content-container" >
+        {/* Inicio */}
+        <Grid container spacing={1} className="main-content-container" >
+          <h2></h2>
+          <Grid container size={{ xs: 12, xl: 12, md: 12 }} id="inicio" sx={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+            <Grid size={{ xs: 12, xl: 9, md: 9, sm: 8, lg: 9 }} sx={{ textAlign: 'left', color: 'white' }}>
+              <h2 className='section-title'>Bienvenido a GuayasTime</h2>
+              <p className='section-text'>Guayaquil tiene un clima tropical cálido y
+                húmedo durante todo el año, con temperaturas que oscilan entre 23°C y 31°C.
+                La ciudad experimenta dos estaciones principales: una lluviosa, de enero a mayo,
+                caracterizada por fuertes lluvias y alta humedad, y una seca, de junio a diciembre,
+                con un ambiente más fresco y brisas agradables. Este clima la convierte en un destino
+                cálido y acogedor en cualquier época del año.</p>
+            </Grid>
+            <Grid size={{ xs: 12, xl: 3, md: 3, sm: 4, lg: 3 }} sx={{ display: 'flex', justifyContent: 'center', zIndex: 1 }}>
+              <Time />
+            </Grid>
+          </Grid>
 
-          <Grid container size={{ xs: 12, xl: 12, md:12 }} id="Time" sx={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
-            <Grid size={{ xs: 12, xl: 9, md:9, sm:8, lg:9 }} sx={{ textAlign: 'left', color: 'white' }}>
-              <h2 className='section-title'>Detalles de la Localización</h2>
+          {/*Indicadores*/}
+          <Grid container id="indicadores" size={{ xs: 12, xl: 12 }} spacing={3} >
+            <Grid size={{ xs: 12, xl: 12, md: 12, sm: 12, lg: 12 }}>
+              <h2 className='section-title'>Detalles de Guayaquil</h2>
               <p className='section-text'>
                 Los indicadores de localización proporcionan información esencial sobre la ubicación específica dentro de la ciudad de Guayaquil para la que se están mostrando los datos climáticos. Estos indicadores son cruciales para ofrecer una perspectiva precisa y detallada del clima, ya que las condiciones meteorológicas pueden variar significativamente entre diferentes áreas de la ciudad.
               </p>
             </Grid>
 
-            <Grid size={{ xs: 12, xl: 3, md:3, sm:4, lg:3}} sx={{ display: 'flex', justifyContent: 'center', zIndex: 1 }}>
-              <Time />
-            </Grid>
+            {
+              indicators
+                .map(
+                  (indicator, idx) => (
+                    <Grid key={idx} spacing={1} size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4}} sx={{ flexGrow: 1 }}>
+                      <IndicatorWeather
+                        title={indicator["title"]}
+                        subtitle={indicator["subtitle"]}
+                        value={indicator["value"]} />
+                    </Grid>
+                  )
+                )
+            }
           </Grid>
 
-
-          {/*Indicadores*/}
-          {
-            indicators
-              .map(
-                (indicator, idx) => (
-                  <Grid key={idx} spacing={1} size={{ xs: 12, xl: 3, md:3, sm:6, lg:3 }} sx={{ flexGrow: 1 }}>
-                    <IndicatorWeather
-                      title={indicator["title"]}
-                      subtitle={indicator["subtitle"]}
-                      value={indicator["value"]} />
-                  </Grid>
-                )
-              )
-          }
-
-
           {/* Tabla */}
-          <Grid size={{ xs: 12, xl: 8 }}>
+          <Grid size={{ xs: 12, xl: 12 }} id="historial" sx={{ mt: 6 }}>
             {/* Grid Anidado */}
             <Grid container spacing={2}>
-              <Grid size={{ xs: 12, xl: 3 }}>
-                <ControlWeather />
+              <Grid size={{ xs: 12, xl: 12, md: 12, sm: 12, lg: 12 }}>
+                <h2 className='section-title'>Historial de Guayaquil</h2>
+                <p className='section-text'> La siguiente tabla presenta un historial detallado del clima
+                  en Guayaquil, incluyendo datos clave como la temperatura, la humedad y el nivel de nubosidad.
+                  Estos registros permiten analizar las variaciones climáticas de la ciudad, ofreciendo información
+                  precisa y actualizada para comprender mejor su comportamiento atmosférico </p>
               </Grid>
-              <Grid size={{ xs: 12, xl: 9 }}>
+              <Grid size={{ xs: 12, xl: 12 }}>
                 <TableWeather itemsIn={items} />
               </Grid>
             </Grid>
           </Grid>
 
           {/* Gráfico */}
-          <Grid size={{ xs: 12, xl: 4 }}> <LineChartWeather /> </Grid>
-
-
+          <Grid container size={{ xs: 12, xl: 12 }} spacing={3} id="grafico" sx={{ mt: 6 }}>
+            <Grid size={{ xs: 12, xl: 6, md: 9, sm: 9, lg: 12 }}>
+              <h2 className='section-title'>Gráficos Meteorológicos</h2>
+              <p className='section-text'> La siguiente tabla presenta un historial detallado del clima
+                en Guayaquil, incluyendo datos clave como la temperatura, la humedad y el nivel de nubosidad.
+                Estos registros permiten analizar las variaciones climáticas de la ciudad, ofreciendo información
+                precisa y actualizada para comprender mejor su comportamiento atmosférico </p>
+            </Grid>
+            <Grid size={{ xs: 12, xl: 6 }}> <ControlWeather /> </Grid>
+            <Grid size={{ xs: 12, xl: 12 }}> <LineChartWeather /> </Grid>
+          </Grid>
         </Grid>
       </Grid >
     </>

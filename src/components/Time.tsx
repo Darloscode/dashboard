@@ -26,7 +26,7 @@ export default function Time() {
       const hour = today.getHours();
       const wish = `${(hour < 12 && 'Buenos días!') || (hour < 17 && 'Buenas tardes!') || 'Buenas Noches!'}`;
 
-      const time = today.toLocaleTimeString(locale, { hour: 'numeric', hour12: true, minute: 'numeric', second: 'numeric' });
+      const time = today.toLocaleTimeString(locale, { hour: 'numeric', hour12: false, minute: 'numeric', second: 'numeric' });
 
       setDateInfo({ date, time, wish });
 
@@ -48,7 +48,7 @@ export default function Time() {
   }, []);
 
   return (
-    <Card sx={{ maxWidth: '345px', backgroundColor: 'white', borderRadius: '7px' }} elevation={5}>
+    <Card sx={{maxHeight:'350px', maxWidth: '345px', backgroundColor: 'white', borderRadius: '7px' }} elevation={5}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -60,7 +60,7 @@ export default function Time() {
           <Typography gutterBottom component="h2" variant="h6" sx={{ fontWeight: 200, color: '#123f77' }}>
             {dateInfo.wish}
           </Typography>
-          <Typography component="p" variant="h4">
+          <Typography component="p" variant="h4" >
             {dateInfo.time}
           </Typography>
           <Typography color="text.secondary" sx={{ flex: 1 }}>
