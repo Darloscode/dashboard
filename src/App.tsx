@@ -124,22 +124,22 @@ function App() {
     <>
       <Grid container className="app-container" >
         {/* Barra de navegación ocupa 220px */}
-        <Grid xs={12} md={3} className="navbar-container">
+        <Grid size={{sm:0, xs: 0, xl: 0, md:1 }} className="navbar-container">
           <NavBar />
         </Grid>
 
         {/* Contenido principal */}
         <Grid container spacing={2} className="main-content-container" >
 
-          <Grid container sm={12} md={12} lg={12} id="Time" sx={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
-            <Grid xs={12} sm={8} md={9} lg={9} xl={9} sx={{ textAlign: 'left', color: 'white' }}>
+          <Grid container size={{ xs: 12, xl: 12, md:12 }} id="Time" sx={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+            <Grid size={{ xs: 12, xl: 9, md:9, sm:8, lg:9 }} sx={{ textAlign: 'left', color: 'white' }}>
               <h2 className='section-title'>Detalles de la Localización</h2>
               <p className='section-text'>
                 Los indicadores de localización proporcionan información esencial sobre la ubicación específica dentro de la ciudad de Guayaquil para la que se están mostrando los datos climáticos. Estos indicadores son cruciales para ofrecer una perspectiva precisa y detallada del clima, ya que las condiciones meteorológicas pueden variar significativamente entre diferentes áreas de la ciudad.
               </p>
             </Grid>
 
-            <Grid xs={12} sm={4} md={3} lg={3} xl={3} sx={{ display: 'flex', justifyContent: 'center', zIndex: 1 }}>
+            <Grid size={{ xs: 12, xl: 3, md:3, sm:4, lg:3}} sx={{ display: 'flex', justifyContent: 'center', zIndex: 1 }}>
               <Time />
             </Grid>
           </Grid>
@@ -150,7 +150,7 @@ function App() {
             indicators
               .map(
                 (indicator, idx) => (
-                  <Grid key={idx} spacing={1} xs={12} sm={6} md={3} lg={3} sx={{ flexGrow: 1 }}>
+                  <Grid key={idx} spacing={1} size={{ xs: 12, xl: 3, md:3, sm:6, lg:3 }} sx={{ flexGrow: 1 }}>
                     <IndicatorWeather
                       title={indicator["title"]}
                       subtitle={indicator["subtitle"]}
