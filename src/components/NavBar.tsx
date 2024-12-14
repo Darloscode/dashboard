@@ -8,7 +8,9 @@ export default function Navbar() {
     const navRef = useRef<HTMLDivElement>(null);
 
     const showNavBar = () => {
-        navRef.current.classList.toggle("responsive_nav");
+        if (navRef.current) {
+            navRef.current.classList.toggle("responsive_nav");
+        }
     };
 
     return (
@@ -21,7 +23,7 @@ export default function Navbar() {
 
                 <div className="nav-header">
                     <img id="logo" src={logo} alt="logo" />
-                    <h3 id="logo-title">Guayaquil Forecast</h3>
+                    <h3 id="logo-title">GuayasTime</h3>
                 </div>
 
                 <a href="#" onClick={showNavBar}>Inicio</a>

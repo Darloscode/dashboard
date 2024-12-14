@@ -122,41 +122,26 @@ function App() {
 
   return (
     <>
-      <Grid container className="app-container">
+      <Grid container className="app-container" >
         {/* Barra de navegación ocupa 220px */}
-        <Grid item xs={12} md={3} className="navbar-container">
+        <Grid xs={12} md={3} className="navbar-container">
           <NavBar />
         </Grid>
 
         {/* Contenido principal */}
         <Grid container spacing={2} className="main-content-container" >
 
-          <Grid container id="title">
-            <Grid item sm={4} md={4} lg={4} xl={4}>
-              <h2 className='section-title'>Detalles de la Localización</h2>
-              <p className='section-text'>
-                Los indicadores de localización proporcionan información esencial sobre la ubicación específica dentro de la ciudad de Guayaquil para la que se están mostrando los datos climáticos. Estos indicadores son cruciales para ofrecer una perspectiva precisa y detallada del clima, ya que las condiciones meteorológicas pueden variar significativamente entre diferentes áreas de la ciudad.
-              </p>
-            </Grid>
-            <Grid item sm={4} md={4} lg={4} xl={4}>
-              <Time />
-            </Grid>
-          </Grid>
-
-
-          <Grid container sm={12} md={12} lg={12} id="Time" sx={{ width: '100%', alignItems: 'center', justifyContent: 'center'}}>
-
-            <Grid xs={12} sm={8} md={9} lg={9} xl={9} sx={{ textAlign: 'left', marginY: 3, padding: 3, color: 'white' }}>
+          <Grid container sm={12} md={12} lg={12} id="Time" sx={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+            <Grid xs={12} sm={8} md={9} lg={9} xl={9} sx={{ textAlign: 'left', color: 'white' }}>
               <h2 className='section-title'>Detalles de la Localización</h2>
               <p className='section-text'>
                 Los indicadores de localización proporcionan información esencial sobre la ubicación específica dentro de la ciudad de Guayaquil para la que se están mostrando los datos climáticos. Estos indicadores son cruciales para ofrecer una perspectiva precisa y detallada del clima, ya que las condiciones meteorológicas pueden variar significativamente entre diferentes áreas de la ciudad.
               </p>
             </Grid>
 
-            <Grid xs={12} sm={4} md={3} lg={3} xl={3} sx={{display: 'flex', justifyContent: 'center', zIndex: 1 }}>
+            <Grid xs={12} sm={4} md={3} lg={3} xl={3} sx={{ display: 'flex', justifyContent: 'center', zIndex: 1 }}>
               <Time />
             </Grid>
-
           </Grid>
 
 
