@@ -14,7 +14,11 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 // Define la interfaz para las props del componente
 
-export default function ControlWeather( { setValue }) {
+interface ControlWeatherProps {
+    setValue: (value: number) => void;
+  }
+
+export default function ControlWeather({ setValue }: ControlWeatherProps) {
     {/* Constante de referencia a un elemento HTML */ }
     const descriptionRef = useRef<HTMLDivElement>(null);
 
@@ -85,8 +89,8 @@ export default function ControlWeather( { setValue }) {
                  (selected >= 0)?items[selected]["description"]:""
              }
              </Typography>*/}
-            <Typography ref={descriptionRef} mt={2} component="p" color="text.secondary" > 
-            {selected >= 0 ? items[selected]["description"] : "Seleccione una variable para ver la descripción."}
+            <Typography ref={descriptionRef} mt={2} component="p" color="text.secondary" >
+                {selected >= 0 ? items[selected]["description"] : "Seleccione una variable para ver la descripción."}
             </Typography>
         </Paper>
 

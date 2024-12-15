@@ -14,11 +14,20 @@ const xLabels = [
     'Page F',
     'Page G',
 ]; */}
+interface LineChartWeatherProps {
+    value: number;
+    dataGraphic: Array<{
+        rangeHours: string;
+        precipitation: string;
+        humidity: string;
+        clouds: string;
+    }>;
+}
 
-export default function LineChartWeather({ value, dataGraphic }) {
+export default function LineChartWeather({ value, dataGraphic }: LineChartWeatherProps) {
 
-    let [ejex, setDatax] = useState([])
-    let [ejey, setDatay] = useState([])
+    let [ejex, setDatax] = useState<string[]>([]);
+    let [ejey, setDatay] = useState<number[]>([]);
     let [labelSeleccion, setLabelSeleccion] = useState("");
     useEffect(() => {
 
@@ -26,13 +35,11 @@ export default function LineChartWeather({ value, dataGraphic }) {
 
             {/* Procesar data */ }
 
-            let processData = [
-                ["Fecha"]
-            ]
+            const processData: Array<[string, number]> = [];
 
             if (value == 0 || value == -1) {
 
-                processData[0].push("Precipitación")
+                //processData[0].push("Precipitación")
                 setLabelSeleccion("Precipitación")
                 for (let item of dataGraphic) {
                     processData.push([item.rangeHours, parseFloat(item.precipitation)])
@@ -40,7 +47,7 @@ export default function LineChartWeather({ value, dataGraphic }) {
 
             } else if (value == 1) {
 
-                processData[0].push("Humedad")
+                //processData[0].push("Humedad")
                 setLabelSeleccion("Humedad")
                 for (let item of dataGraphic) {
                     const humidity = await item.humidity.split(" ")[0]
@@ -49,7 +56,7 @@ export default function LineChartWeather({ value, dataGraphic }) {
 
             } else if (value == 2) {
 
-                processData[0].push("Nubosidad")
+                //processData[0].push("Nubosidad")
                 setLabelSeleccion("Nubosidad")
                 for (let item of dataGraphic) {
                     const clouds = await item.clouds.split(" ")[2]
@@ -65,33 +72,31 @@ export default function LineChartWeather({ value, dataGraphic }) {
             processData.push([item.rangeHours, parseFloat(item.precipitation), parseInt(humidity), parseInt(clouds)])
           }
           */}
-          
-            const datosy = processData.slice(1).map(fila => fila[1]);
-            const datosx = processData.slice(1).map(fila => fila[0]);
+
+            const datosy = processData.map(fila => fila[1]);
+            const datosx = processData.map(fila => fila[0]);
 
             // Lista para guardar los valores de datay correspondientes
-            const seleccionadosx = [];
-            const seleccionadosy = [];
+            const seleccionadosx: string[] = [];
+            const seleccionadosy: number[] = [];
 
             // Recorrer los elementos de datax y datay al mismo tiempo
             datosx.forEach((timeRange, index) => {
                 // Verificar si el tiempo de inicio es '06:00:00'
                 const partes = timeRange.split('T')
                 if (partes[1].startsWith("06:00:00")) {
-                    console.log(index,timeRange)
+                    console.log(index, timeRange)
                     // Guardar el valor correspondiente de datay
                     seleccionadosx.push(partes[0]);
                     seleccionadosy.push(datosy[index]);
                 }
             });
-            console.log(seleccionadosx)
-            console.log(seleccionadosy)
             setDatax(seleccionadosx);
             setDatay(seleccionadosy);
         })()
 
     }, [value, dataGraphic])
-    
+
     return (
         <Paper
             sx={{
@@ -117,7 +122,7 @@ export default function LineChartWeather({ value, dataGraphic }) {
             <div style={{ width: "100%", height: "500px" }}>
                 <LineChart
                     series={[
-                        { curve: "catmullRom", data: ejey, label: labelSeleccion, area: true, baseline: 'min'},
+                        { curve: "catmullRom", data: ejey, label: labelSeleccion, area: true, baseline: 'min' },
                     ]}
                     xAxis={[{ scaleType: 'point', data: ejex }]}
                     grid={{ vertical: true, horizontal: true }}

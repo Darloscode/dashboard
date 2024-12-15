@@ -21,11 +21,11 @@ interface Indicator {
 }
 
 interface DataItem {
-  rangeHours: string;
-  windDirection: string;
-  precipitation: string | null;
-  humidity: string;
-  clouds: string;
+  rangeHours: string;       // Rango de horas como cadena de texto
+  windDirection: string;    // Dirección del viento
+  precipitation: string;    // Precipitación en algún formato (probablemente mm)
+  humidity: string;         // Humedad como porcentaje
+  clouds: string;           // Descripción y porcentaje de nubes
 }
 
 function App() {
@@ -35,8 +35,9 @@ function App() {
   let [owm, setOWM] = useState(localStorage.getItem("openWeatherMap"))
 
   /*Agregado*/
-  let [tunnel, setTunnel] = useState([])
-  const [dataGraphic, setDataGraphic] = useState<DataItem[]>([]);
+  let [tunnel, setTunnel] = useState<number>(0);
+  let [dataGraphic, setDataGraphic] = useState<DataItem[]>([]);
+
   {/* Hook: useEffect */ }
   useEffect(() => {
     let request = async () => {
@@ -150,7 +151,7 @@ function App() {
 
           let windDirection = timeElement.getElementsByTagName("windDirection")[0].getAttribute("deg") + " " + timeElement.getElementsByTagName("windDirection")[0].getAttribute("code")
 
-          let precipitation = timeElement.getElementsByTagName("precipitation")[0].getAttribute("probability")
+          let precipitation = timeElement.getElementsByTagName("precipitation")[0]?.getAttribute("probability")??""
 
           let humidity = timeElement.getElementsByTagName("humidity")[0].getAttribute("value") + " " + timeElement.getElementsByTagName("humidity")[0].getAttribute("unit")
 
@@ -175,7 +176,6 @@ function App() {
 
 
   /*const [count, setCount] = useState(0)*/
-
   return (
     <>
       <Grid container className="app-container" >
@@ -253,7 +253,7 @@ function App() {
                 Estos registros permiten analizar las variaciones climáticas de la ciudad, ofreciendo información
                 precisa y actualizada para comprender mejor su comportamiento atmosférico </p>
             </Grid>
-            <Grid size={{ xs: 12, xl: 6 }}> <ControlWeather setValue={setTunnel} /> </Grid>
+            <Grid size={{ xs: 12, xl: 6 }}> <ControlWeather setValue={(value: number) => setTunnel(value)} /> </Grid>
             <Grid size={{ xs: 12, xl: 12 }}> <LineChartWeather value={tunnel} dataGraphic={dataGraphic} /> </Grid>
           </Grid>
         </Grid>
