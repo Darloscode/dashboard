@@ -20,12 +20,23 @@ interface Indicator {
   value?: String;
 }
 
+interface DataItem {
+  rangeHours: string;
+  windDirection: string;
+  precipitation: string | null;
+  humidity: string;
+  clouds: string;
+}
+
 function App() {
   {/* Variable de estado y función de actualización */ }
   let [items, setItems] = useState<Item[]>([]);
   let [indicators, setIndicators] = useState<Indicator[]>([])
   let [owm, setOWM] = useState(localStorage.getItem("openWeatherMap"))
 
+  /*Agregado*/
+  let [tunnel, setTunnel] = useState([])
+  const [dataGraphic, setDataGraphic] = useState<DataItem[]>([]);
   {/* Hook: useEffect */ }
   useEffect(() => {
     let request = async () => {
@@ -40,6 +51,7 @@ function App() {
         let API_KEY = "fd624cc67e190b02ac73ba0f05306f53"
         let response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=Guayaquil&mode=xml&appid=${API_KEY}`)
         let savedTextXML = await response.text();
+
 
         {/* Tiempo de expiración */ }
         let hours = 0.01
@@ -124,7 +136,38 @@ function App() {
 
         setItems(dataToItems);
 
+        let arrayObjects = Array.from(xml.getElementsByTagName("time")).map((timeElement) => {
+          let rangeHours = '';
+          if (timeElement) {
+            const from = timeElement.getAttribute("from");
+            const to = timeElement.getAttribute("to");
+
+            // Verificar que `from` y `to` no sean null
+            if (from && to) {
+              rangeHours = from + " - " + to.split("T")[1];
+            }
+          }
+
+          let windDirection = timeElement.getElementsByTagName("windDirection")[0].getAttribute("deg") + " " + timeElement.getElementsByTagName("windDirection")[0].getAttribute("code")
+
+          let precipitation = timeElement.getElementsByTagName("precipitation")[0].getAttribute("probability")
+
+          let humidity = timeElement.getElementsByTagName("humidity")[0].getAttribute("value") + " " + timeElement.getElementsByTagName("humidity")[0].getAttribute("unit")
+
+          let clouds = timeElement.getElementsByTagName("clouds")[0].getAttribute("value") + ": " + timeElement.getElementsByTagName("clouds")[0].getAttribute("all") + " " + timeElement.getElementsByTagName("clouds")[0].getAttribute("unit")
+
+          return {
+            "rangeHours": rangeHours,
+            "windDirection": windDirection,
+            "precipitation": precipitation,
+            "humidity": humidity,
+            "clouds": clouds
+          }
+
+        })
+        setDataGraphic(arrayObjects)
       }
+
     }
     request();
 
@@ -173,7 +216,7 @@ function App() {
               indicators
                 .map(
                   (indicator, idx) => (
-                    <Grid key={idx} spacing={1} size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4}} sx={{ flexGrow: 1 }}>
+                    <Grid key={idx} spacing={1} size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4 }} sx={{ flexGrow: 1 }}>
                       <IndicatorWeather
                         title={indicator["title"]}
                         subtitle={indicator["subtitle"]}
@@ -210,8 +253,8 @@ function App() {
                 Estos registros permiten analizar las variaciones climáticas de la ciudad, ofreciendo información
                 precisa y actualizada para comprender mejor su comportamiento atmosférico </p>
             </Grid>
-            <Grid size={{ xs: 12, xl: 6 }}> <ControlWeather /> </Grid>
-            <Grid size={{ xs: 12, xl: 12 }}> <LineChartWeather /> </Grid>
+            <Grid size={{ xs: 12, xl: 6 }}> <ControlWeather setValue={setTunnel} /> </Grid>
+            <Grid size={{ xs: 12, xl: 12 }}> <LineChartWeather value={tunnel} dataGraphic={dataGraphic} /> </Grid>
           </Grid>
         </Grid>
       </Grid >

@@ -47,10 +47,10 @@ export default function BasicTable(props: MyProp) {
           <TableRow>
             <TableCell align="center">Hora de Inicio</TableCell>
             <TableCell align="center">Hora de Fin</TableCell>
-            <TableCell align="center">Precipitación (%)</TableCell>
-            <TableCell align="center">Humedad (%)</TableCell>
-            <TableCell align="center">Nubosidad (%)</TableCell>
-            <TableCell align="center">Temperatura (°K)</TableCell>
+            <TableCell align="center">Precipitación</TableCell>
+            <TableCell align="center">Humedad</TableCell>
+            <TableCell align="center">Nubosidad</TableCell>
+            <TableCell align="center">Temperatura</TableCell>
             <TableCell align="center">Visibilidad</TableCell>
           </TableRow>
         </TableHead>
@@ -60,12 +60,12 @@ export default function BasicTable(props: MyProp) {
               key={idx}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" align="center" scope="row">{row.dateStart}</TableCell>
-              <TableCell align="center">{row.dateEnd}</TableCell>
-              <TableCell align="center">{row.precipitation}</TableCell>
-              <TableCell align="center">{row.humidity}</TableCell>
-              <TableCell align="center">{row.clouds}</TableCell>
-              <TableCell align="center">{row.temperature}</TableCell>
+              <TableCell component="th" align="center" scope="row">{row.dateStart.replace("T"," - ")}</TableCell>
+              <TableCell align="center">{row.dateEnd.replace("T"," - ")}</TableCell>
+              <TableCell align="center">{row.precipitation+"%"}</TableCell>
+              <TableCell align="center">{row.humidity+"%"}</TableCell>
+              <TableCell align="center">{row.clouds+"%"}</TableCell>
+              <TableCell align="center">{row.temperature+" °K"}</TableCell>
               <TableCell align="center">{row.visibility}</TableCell>
             </TableRow>
           ))}

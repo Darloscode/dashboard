@@ -2,7 +2,7 @@
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useRef } from "react";
 import "../styles/NavBar.css";
-import logo from "../assets/react.svg";
+import logo from "../assets/logo.svg";
 
 export default function Navbar() {
     const navRef = useRef<HTMLDivElement>(null);

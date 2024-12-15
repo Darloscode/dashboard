@@ -12,8 +12,9 @@ import FormControl from '@mui/material/FormControl';
 
 {/* Interfaz SelectChangeEvent */ }
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+// Define la interfaz para las props del componente
 
-export default function ControlWeather() {
+export default function ControlWeather( { setValue }) {
     {/* Constante de referencia a un elemento HTML */ }
     const descriptionRef = useRef<HTMLDivElement>(null);
 
@@ -36,6 +37,8 @@ export default function ControlWeather() {
         let idx = parseInt(event.target.value)
         /*alert(idx);*/
         setSelected(idx);
+        setValue(idx)
+
         {/* Modificación de la referencia descriptionRef */ }
         if (descriptionRef.current !== null) {
             descriptionRef.current.innerHTML = (idx >= 0) ? items[idx]["description"] : ""
