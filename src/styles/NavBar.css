@@ -54,7 +54,7 @@ nav a {
 
 nav a:hover {
   background-color: var(--secondaryColor);
-  color: white;
+  color: #999999;
 }
 
 header .nav-btn {

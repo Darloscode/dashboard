@@ -216,7 +216,7 @@ function App() {
               indicators
                 .map(
                   (indicator, idx) => (
-                    <Grid key={idx} spacing={1} size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4 }} sx={{ flexGrow: 1 }}>
+                    <Grid key={idx} spacing={1} size={{ xs: 12, sm: 12, md: 6, lg: 6, xl: 2 }} sx={{ flexGrow: 1 }}>
                       <IndicatorWeather
                         title={indicator["title"]}
                         subtitle={indicator["subtitle"]}
